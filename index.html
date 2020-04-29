@@ -1,0 +1,236 @@
+<!doctype html>
+<html lang="en" ng-app="portfolioApp" ng-controller="GalleryListCtrl">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title ng-bind-template="{{query}}">Drzymalski</title>
+	<link href="https://fonts.googleapis.com/css?family=Gotu|Oswald:wght@400;700&display=swap&subset=latin-ext" rel="stylesheet">
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"
+        integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
+    <link rel="stylesheet" href="css/style.css">
+
+</head>
+
+<body>
+
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" datatoggle="collapse"
+                    data-target="#navbar-collapse-1" ariaexpanded="false">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="#">
+                    <img style="max-width:100px; margin-top: -8px;" src=img/logo.png alt="...">
+                </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar-collapse-1">
+                <ul class="nav navbar-nav  navbar-right">
+                    <li><a href="#sectionAnimal" class="btn btn-primary" id="button">Sekcja modeli<i
+                                class="glyphicon glyphicon-leaf"></i></a></li>
+					<li><a href="#main-page" class="btn btn-primary" id="button">Opis<i
+                                class="glyphicon glyphicon-leaf"></i></a></li>
+                    <li><a href="#second-page" class="btn btn-primary" id="button">Problemy <i
+                                class="glyphicon glyphicon-leaf"></i></a></li>
+                    <li><a href="index.html" class="btn btn-primary" id="button">Strona 1<i
+                                class="glyphicon glyphicon-fire"></i></a>
+                    </li>
+                    <li><a href="index-2.html" class="btn btn-primary" id="button">Strona 2<i
+                                class="glyphicon glyphicon-fire"></i></a></li>
+                    <li><a href="index-3.html" class="btn btn-primary" id="button">Strona 3<i
+                                class="glyphicon glyphicon-fire"></i></a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+
+    <div class=”container”>
+        <div id="carouselID" class="carousel slide" data-ride="carousel">
+            <ol class="carousel-indicators">
+                <li data-target="#carouselID" data-slide-to="0" class="active"></li>
+                <li data-target="#carouselID" data-slide-to="1"></li>
+                <li data-target="#carouselID" data-slide-to="2"></li>
+                <li data-target="#carouselID" data-slide-to="3"></li>
+            </ol>
+            <div class="carousel-inner" role="listbox">
+
+                <div class="item active">
+                    <img src="img/1.jpg" alt="...">
+                    <div class="carousel-caption">1</div>
+                </div>
+
+                <div class="item">
+                    <img src=img/2.jpg alt="...">
+                    <div class="carousel-caption">2</div>
+                </div>
+
+                <div class="item">
+                    <img src=img/3.jpg alt="...">
+                    <div class="carousel-caption">3</div>
+                </div>
+
+                <div class="item">
+                    <img src=img/4.jpg alt="...">
+                    <div class="carousel-caption">4</div>
+                </div>
+
+            </div>
+            <a class="left carousel-control" href="#carouselID" role="button" data-slide="prev">
+                <span class="glyphicon glyphicon-chevron-left" ariahidden="true"></span>
+                <span class="sr-only">Poprzedni</span>
+            </a>
+            <a class="right carousel-control" href="#carouselID" role="button" data-slide="next">
+                <span class="glyphicon glyphicon-chevron-right" ariahidden="true"></span>
+                <span class="sr-only">Następny</span>
+            </a>
+        </div>
+    </div>
+	
+	<section id="sectionAnimal" class="jumbotron">
+        <div class="container">
+            <div class="row content text-center">
+                <h1>Sekcja Modeli</h1>
+                <h3>Sekcja zawiera modele Vectr C</h3>
+					<div class="row">
+                    <div class="col-sm-5">
+                        <h3><label>Szukaj: </label></h3>
+                        <p><input type="text" ng-model="query" class="form-control"></p>
+                        <p ng-if="query"><b>Wyniki wyszukiwania dla:</b> {{query}}</p>
+                        <p ng-if="!query"><b>Ilość elementów:</b> {{galleries.length}}</p>
+                    </div>
+
+                    <div class="col-sm-2">
+                    </div>
+                    <div class="col-sm-5">
+                        <h3><label>Sortuj:</label></h3>
+                        <select ng-model="orderProp" ng-options="sort as sort.label for sort in sortList"
+                            class="form-control">
+                            <option value="when">Chronologicznie</option>
+							<option value="title">Alfabetycznie</option>
+                        </select>
+                        <p></p>
+                        <p ng-if="orderProp"><b>Galerie ułożone:</b>
+                            {{orderProp.label}}</p>
+                    </div>
+                </div>
+
+
+                <br>
+                <div class="col-sm-4 text-center" ng-repeat="gallery in galleries | filter:
+                query | orderBy: orderProp  | orderBy: orderProp.value">
+                    <img src=" {{gallery.thumbnailUrl}}" class="img-rounded center-block img-responsie" alt=""
+                        height=200 width=300>
+                    <h3>{{gallery.title}}</h3>
+                    <p><strong>Kiedy: </strong>{{gallery.when | date : 'longDate' : '+0100'}}</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="main-page" class="jumbotron">
+        <div id="main-page-container" class="container">
+            <h1>Opis<i class="glyphicon glyphicon-gift"></i></h1>
+            <p>
+                Opel Vectra C to praktyczne i tanie auto. Niska cena nie bierze się jednak znikąd. 
+				Ten model ma też swoje wady. Nie można jednak narzekać na ofertę rynkową – jest szeroka i zróżnicowana. 
+				Najbardziej praktyczna odmiana to kombi z dużym bagażnikiem (poj. 530-1850 l), 
+				jakkolwiek możecie też zdecydować się na zgrabnie wyglądającego sedana lub liftbacka (GTS), 
+				których kufry też są niczego sobie – pojemność (odpowiednio): 500 i 500-1360 l.
+            </p>
+        </div>
+    </section>
+	
+
+    <section id="second-page">
+        <div style="margin-bottom: 64px" id="main-page-container" class="container">
+            <h1 style="text-align: center; color : green ">Problemy<i
+                    class="glyphicon glyphicon-gift"></i></h1>
+            <h2>
+                Trwałość wnętrza Vectry C okazuje się poprawna, 
+				wyposażenie – więcej niż zadowalające (w serii: 6 airbagów, klimatyzacja, radio, 
+				kontrola trakcji), do tego nadwozie dobrze zabezpieczono przed korozją. Problemy sprawia natomiast podwozie. 
+				Auto ma tendencję do ściągania i ząbkowania tylnych opon, które szybko zaczynają hałasować, tylko pozornie bez powodu. 
+				Wszystkiemu winne jest wielowahaczowe tylne zawieszenie, które trzeba okresowo ustawiać.
+				Robisz to i... problem niemal natychmiast wraca, a luzów nie widać. Co się dzieje? Odpowiedzialne za to są zazwyczaj dolne wahacze aluminiowe, w których wytłukują się tuleje. 
+				Nie da się ich wymienić osobno, a jeden wahacz kosztuje 650 zł, zaś cała operacja wystarcza na... rok.
+            </h2>
+        </div>
+
+        <div style="text-align:center" style="text-align: center" class="row">
+            <div class="col-sm-4">
+                <h1 style="text-align: center;">Wolnossące benzyny</h1>
+                <h3>Podstawowe benzyniaki 1.6 (100 i 105 KM) są nieco za słabe do napędu Vectry. Minimum gwarantujące sprawną 
+				jazdę to wersja 1.8/140 KM (motor ten szczególnie polecamy do współpracy z LPG!). Niezłym wyborem jest silnik 2.2. 
+				Podczas przeprowadzonego przez nas testu długodystansowego okazał się mocnym punktem Vectry, ale warto zaznaczyć, że w 2004 r. 
+				zastosowano w nim bezpośredni wtrysk benzyny (moc 155 KM) i... zaczęły się problemy.</h3>
+                <img style="margin-top: 32px" class="img-circle" src=img/w1.jpg alt="...">
+                <h3 style="color:cornflowerblue">Wolne</h3>
+            </div>
+            <div style="text-align:center" class="col-sm-4">
+                <h1 style="text-align: center;">Turbodoładowane benzyny</h1>
+                <h3>Poza tym w ofercie są wersje z doładowaniem – 2.0 R4 i 2.8 V6. Pierwsza z nich to półśrodek pomiędzy sportem a normalną eksploatacją. 
+				Druga przeobraża rodzinnego Opla Vectrę w „sportowca” (zwłaszcza w odmianie OPC), 
+				ale musicie przygotować się na średnie spalanie powyżej 11 l/100 km i drogi serwis.</h3>
+                <img style="margin-top: 32px" src=img/w2.jpg class="img-circle" alt="...">
+                <h3 style="color:darkgreen">Szybkie</h3>
+            </div>
+            <div style="text-align:center" class="col-sm-4">
+                <h1 style="text-align: center;">Turbodiesle</h1>
+                <h3>Spośród turbodiesli polecamy udany silnik konstrukcji Fiata 1.9 CDTI (na rynku od 2004 r.; 
+				moce: 100, 120 i 150 KM). Szczególnie warta uwagi jest odmiana 120-konna,
+				gdyż w opinii mechaników uchodzi za mało awaryjną i tanią w naprawach. 
+				Po większość oryginalnych części do diesla 1.9 radzimy pojechać do ASO Fiata – będzie o wiele taniej!</h3>
+                <img style="margin-top: 32px" class="img-circle" src=img/w3.jpg alt="...">
+                <h3 style="color:red">Optymalne</h3>
+            </div>
+        </div>
+
+    </section>
+
+    <script src="https://code.jquery.com/jquery-1.12.4.min.js"
+        integrity="sha384-nvAa0+6Qg9clwYCGGPpDQLVpLNn0fRaROjHqs13t4Ggj3Ez50XnGQqc/r8MhnRDZ"
+        crossorigin="anonymous"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"
+        integrity="sha384-aJ21OjlMXNL5UyIl/XNwTMqvzeRMZH2w8c5cRVpzpU8Y5bApTppSuUkhZXN0VxHd"
+        crossorigin="anonymous"></script>
+    <script src="js/angular.min.js"></script>
+    <script src="js/controllers.js"></script>
+</body>
+
+
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Hidden text</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+			This text had been hidden from beggining
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Zamknij</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<footer style="text-align:center; margin-top: 64px; background-color:blue;">
+    <button type="button" class="btn btn-success" data-toggle="modal" data-target="#exampleModal">
+        Hidden text
+        <i class="glyphicon glyphicon-question-mark"></i>
+    </button>
+</footer>>
+
+</html>
